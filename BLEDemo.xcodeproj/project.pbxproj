@@ -15,8 +15,8 @@
 		938906641CB78E590058DC6C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 938906621CB78E590058DC6C /* LaunchScreen.storyboard */; };
 		9389066F1CB78E590058DC6C /* BLEDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 9389066E1CB78E590058DC6C /* BLEDemoTests.m */; };
 		9389067A1CB78E590058DC6C /* BLEDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 938906791CB78E590058DC6C /* BLEDemoUITests.m */; };
-		9389068C1CB790B60058DC6C /* PeripheralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9389068B1CB790B60058DC6C /* PeripheralViewController.m */; };
-		9389068F1CB790CB0058DC6C /* CentralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9389068E1CB790CB0058DC6C /* CentralViewController.m */; };
+		93CF23B11CB89A7600662F5B /* CentralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CF23AE1CB89A7600662F5B /* CentralViewController.m */; };
+		93CF23B21CB89A7600662F5B /* PeripheralViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 93CF23B01CB89A7600662F5B /* PeripheralViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,10 +53,10 @@
 		938906751CB78E590058DC6C /* BLEDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BLEDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		938906791CB78E590058DC6C /* BLEDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BLEDemoUITests.m; sourceTree = "<group>"; };
 		9389067B1CB78E590058DC6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		9389068A1CB790B60058DC6C /* PeripheralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PeripheralViewController.h; path = ../PeripheralViewController.h; sourceTree = "<group>"; };
-		9389068B1CB790B60058DC6C /* PeripheralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PeripheralViewController.m; path = ../PeripheralViewController.m; sourceTree = "<group>"; };
-		9389068D1CB790CB0058DC6C /* CentralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CentralViewController.h; path = ../CentralViewController.h; sourceTree = "<group>"; };
-		9389068E1CB790CB0058DC6C /* CentralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CentralViewController.m; path = ../CentralViewController.m; sourceTree = "<group>"; };
+		93CF23AD1CB89A7600662F5B /* CentralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CentralViewController.h; sourceTree = "<group>"; };
+		93CF23AE1CB89A7600662F5B /* CentralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CentralViewController.m; sourceTree = "<group>"; };
+		93CF23AF1CB89A7600662F5B /* PeripheralViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeripheralViewController.h; sourceTree = "<group>"; };
+		93CF23B01CB89A7600662F5B /* PeripheralViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PeripheralViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,10 +112,10 @@
 				9389065A1CB78E590058DC6C /* ViewController.h */,
 				9389065B1CB78E590058DC6C /* ViewController.m */,
 				9389065D1CB78E590058DC6C /* Main.storyboard */,
-				9389068A1CB790B60058DC6C /* PeripheralViewController.h */,
-				9389068B1CB790B60058DC6C /* PeripheralViewController.m */,
-				9389068D1CB790CB0058DC6C /* CentralViewController.h */,
-				9389068E1CB790CB0058DC6C /* CentralViewController.m */,
+				93CF23AD1CB89A7600662F5B /* CentralViewController.h */,
+				93CF23AE1CB89A7600662F5B /* CentralViewController.m */,
+				93CF23AF1CB89A7600662F5B /* PeripheralViewController.h */,
+				93CF23B01CB89A7600662F5B /* PeripheralViewController.m */,
 				938906601CB78E590058DC6C /* Assets.xcassets */,
 				938906621CB78E590058DC6C /* LaunchScreen.storyboard */,
 				938906651CB78E590058DC6C /* Info.plist */,
@@ -281,11 +281,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9389068C1CB790B60058DC6C /* PeripheralViewController.m in Sources */,
 				9389065C1CB78E590058DC6C /* ViewController.m in Sources */,
 				938906591CB78E590058DC6C /* AppDelegate.m in Sources */,
+				93CF23B11CB89A7600662F5B /* CentralViewController.m in Sources */,
+				93CF23B21CB89A7600662F5B /* PeripheralViewController.m in Sources */,
 				938906561CB78E590058DC6C /* main.m in Sources */,
-				9389068F1CB790CB0058DC6C /* CentralViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -428,12 +428,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 王 德才 (35WRX8HHKM)";
 				INFOPLIST_FILE = BLEDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Biketo.BiketoRabbit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -441,12 +442,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: 王 德才 (35WRX8HHKM)";
 				INFOPLIST_FILE = BLEDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Biketo.BiketoRabbit;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -515,6 +517,7 @@
 				938906801CB78E590058DC6C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		938906811CB78E590058DC6C /* Build configuration list for PBXNativeTarget "BLEDemoTests" */ = {
 			isa = XCConfigurationList;
@@ -523,6 +526,7 @@
 				938906831CB78E590058DC6C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		938906841CB78E590058DC6C /* Build configuration list for PBXNativeTarget "BLEDemoUITests" */ = {
 			isa = XCConfigurationList;
@@ -531,6 +535,7 @@
 				938906861CB78E590058DC6C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
