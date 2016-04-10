@@ -31,11 +31,12 @@
     // Do any additional setup after loading the view.
     
     //01,设置info.plist
-//    <key>Required background modes</key>
+//    <key>UIBackgroundModes</key>
 //    <array>
-//    <string>App communicates using CoreBluetooth</string>
-//    <string>App shares data using CoreBluetooth</string>
+//    <string>bluetooth-central</string>
+//    <string>bluetooth-peripheral</string>
 //    </array>
+    
     //02 ,改变出初始化方式
     _centralManager = [[CBCentralManager alloc] initWithDelegate:self
                                                            queue:nil
