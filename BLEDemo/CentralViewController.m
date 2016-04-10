@@ -30,7 +30,16 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _centralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    //01,设置info.plist
+//    <key>Required background modes</key>
+//    <array>
+//    <string>App communicates using CoreBluetooth</string>
+//    <string>App shares data using CoreBluetooth</string>
+//    </array>
+    //02 ,改变出初始化方式
+    _centralManager = [[CBCentralManager alloc] initWithDelegate:self
+                                                           queue:nil
+                                                         options:@{CBCentralManagerOptionRestoreIdentifierKey:kRestoreIdentifierKey}];
     _peripherals = [NSMutableArray array];
 }
 
@@ -78,17 +87,55 @@
 
 #pragma mark - CBCentralManagerDelegate
 
+- (void)centralManager:(CBCentralManager *)central willRestoreState:(NSDictionary<NSString *,id> *)dict{
+    
+//    NSArray *scanServices = dict[CBCentralManagerRestoredStateScanServicesKey];
+//    NSArray *scanOptions = dict[CBCentralManagerRestoredStateScanOptionsKey];
+    
+    NSArray *peripherals = dict[CBCentralManagerRestoredStatePeripheralsKey];
+    for (CBPeripheral *peripheral in peripherals) {
+        [self.peripherals addObject:peripheral];
+        peripheral.delegate = self;
+    }
+}
+
 - (void)centralManagerDidUpdateState:(CBCentralManager *)central{
     
-    switch (central.state) {
-        case CBCentralManagerStatePoweredOn:
-            [self writeToLogWithText:@"中心设备已打开"];
-            [central scanForPeripheralsWithServices:nil options:nil];
-            break;
-            
-        default:
-            [self writeToLogWithText:@"此设备不支持BLE或未打开蓝牙功能"];
-            break;
+    if (central.state == CBCentralManagerStatePoweredOn) {
+        [self writeToLogWithText:@"中心设备已打开"];
+        [_centralManager scanForPeripheralsWithServices:nil options:nil];
+        
+        //03,检查是否restore connected peripherals
+        for (CBPeripheral *peripheral in _peripherals) {
+            if (peripheral.state == CBPeripheralStateConnected) {
+                NSUInteger serviceIdx = [peripheral.services indexOfObjectPassingTest:^BOOL(CBService * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    return [obj.UUID isEqual:kServiceUUID];
+                }];
+                
+                if (serviceIdx == NSNotFound) {
+                    [peripheral discoverServices:@[kServiceUUID]];
+                    continue;
+                }
+                
+                CBService *service = peripheral.services[serviceIdx];
+                NSUInteger charIdx = [service.characteristics indexOfObjectPassingTest:^BOOL(CBCharacteristic * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    return [obj.UUID isEqual:kNotifyUUID];
+                }];
+                
+                if (charIdx == NSNotFound) {
+                    [peripheral discoverCharacteristics:@[kNotifyUUID] forService:service];
+                    continue;
+                }
+                
+                CBCharacteristic *characteristic = service.characteristics[charIdx];
+                if (!characteristic.isNotifying) {
+                    [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+                }
+            }
+        }
+        
+    }else{
+        [_peripherals removeAllObjects];
     }
 }
 
@@ -155,6 +202,7 @@
             if ([characteristic.UUID.UUIDString isEqualToString:kWriteUUID]) {
                 [peripheral writeValue:[@"hello,外设" dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
                 [self writeToLogWithText:@"写数据给外设"];
+                
                 _curPeripherals = peripheral;
                 _curCharacter = characteristic;
             }

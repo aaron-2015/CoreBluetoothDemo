@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+#import "Header.h"
 
 @interface AppDelegate ()
 
@@ -17,6 +18,16 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    NSArray *peripheralManagerIdentifiers = launchOptions[UIApplicationLaunchOptionsBluetoothPeripheralsKey];
+    NSArray *centraManagerIdentifiers = launchOptions[UIApplicationLaunchOptionsBluetoothCentralsKey];
+    
+    for (NSString *identifier in centraManagerIdentifiers) {
+        if ([identifier isEqualToString:kRestoreIdentifierKey]) {
+            
+        }
+    }
+    
     return YES;
 }
 

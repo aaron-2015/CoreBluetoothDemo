@@ -14,6 +14,7 @@
 #define kNotifyUUID  @"6A3D4B29-123D-4F2A-12A8-D5E211411400" //特征的UUID
 #define kReadUUID @"6A3D4B29-123D-4F2A-12A8-D5E211411401" //特征的UUID
 #define kWriteUUID @"6A3D4B29-123D-4F2A-12A8-D5E211411402" //特征的UUID
+#define kRestoreIdentifierKey @"aaron's demo"
 
 
 #endif /* Header_h */
