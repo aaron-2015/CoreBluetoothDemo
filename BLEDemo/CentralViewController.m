@@ -37,6 +37,8 @@
 //    <string>bluetooth-peripheral</string>
 //    </array>
     
+    [self int2bytetest];
+    
     //02 ,改变出初始化方式
     _centralManager = [[CBCentralManager alloc] initWithDelegate:self
                                                            queue:nil
@@ -142,19 +144,26 @@
 
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary<NSString *,id> *)advertisementData RSSI:(NSNumber *)RSSI{
     
-    [self writeToLogWithText:[NSString stringWithFormat:@"发现外围设备:%@",peripheral]];
 //    [_centralManager stopScan];
-    if ([peripheral.name hasPrefix:@"iP"]|| [peripheral.name hasPrefix:@"aaron"]) {
-        if (![_peripherals containsObject:peripheral]) {
-            [_peripherals addObject:peripheral];
-        }
-        [self writeToLogWithText:[NSString stringWithFormat:@"开始连接外围设备--%@",peripheral]];
+//    if ([peripheral.name hasPrefix:@"iP"]|| [peripheral.name hasPrefix:@"aaron"]) {
+//        if (![_peripherals containsObject:peripheral]) {
+//            [_peripherals addObject:peripheral];
+//        }
+//        [self writeToLogWithText:[NSString stringWithFormat:@"开始连接外围设备--%@",peripheral]];
+//        [_centralManager connectPeripheral:peripheral options:nil];
+//    }
+    
+    if ([peripheral.name hasPrefix:@"XINGZHE"]) {
+        [self writeToLogWithText:[NSString stringWithFormat:@"发现外围设备:%@",peripheral]];
+        [self writeToLogWithText:[NSString stringWithFormat:@"开始连接行者--%@",peripheral]];
+        [_peripherals addObject:peripheral];
         [_centralManager connectPeripheral:peripheral options:nil];
     }
 }
 
 - (void)centralManager:(CBCentralManager *)central didConnectPeripheral:(CBPeripheral *)peripheral{
 
+    [_centralManager stopScan];
     [self writeToLogWithText:@"连接设备成功"];
     peripheral.delegate = self;
     
@@ -179,36 +188,133 @@
     for (CBCharacteristic *characteristic in service.characteristics) {
         
         //情景一：读取
-        if (characteristic.properties & CBCharacteristicPropertyRead) {
-            if ([characteristic.UUID.UUIDString isEqualToString:kReadUUID]) {
-                [peripheral readValueForCharacteristic:characteristic];
-                if (characteristic.value) {
-                    NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-                    NSLog(@"读取到特征值：%@",value);
-                }
-            }
-        }
+//        if (characteristic.properties & CBCharacteristicPropertyRead) {
+//            if ([characteristic.UUID.UUIDString isEqualToString:kReadUUID]) {
+//                [peripheral readValueForCharacteristic:characteristic];
+//                if (characteristic.value) {
+//                    NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+//                    NSLog(@"读取到特征值：%@",value);
+//                }
+//            }
+//        }
 
         //情景二：通知
-        if (characteristic.properties & CBCharacteristicPropertyNotify) {
-            if ([characteristic.UUID.UUIDString isEqualToString:kNotifyUUID] || [characteristic.UUID.UUIDString isEqualToString:kWriteUUID]) {
-                _curCharacter = characteristic;
-                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
-                [self writeToLogWithText:@"已订阅特征通知"];
-            }
-        }
+//        if (characteristic.properties & CBCharacteristicPropertyNotify) {
+//            if ([characteristic.UUID.UUIDString isEqualToString:kNotifyUUID] || [characteristic.UUID.UUIDString isEqualToString:kWriteUUID]) {
+//                _curCharacter = characteristic;
+//                [peripheral setNotifyValue:YES forCharacteristic:characteristic];
+//                [self writeToLogWithText:@"已订阅特征通知"];
+//            }
+//        }
         
         //情景二：写数据
-        if (characteristic.properties & CBCharacteristicPropertyWrite) {
-            if ([characteristic.UUID.UUIDString isEqualToString:kWriteUUID]) {
-                [peripheral writeValue:[@"hello,外设" dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
-                [self writeToLogWithText:@"写数据给外设"];
-                
-                _curPeripherals = peripheral;
-                _curCharacter = characteristic;
-            }
+//        if (characteristic.properties & CBCharacteristicPropertyWrite) {
+//            if ([characteristic.UUID.UUIDString isEqualToString:kWriteUUID]) {
+//                [peripheral writeValue:[@"hello,外设" dataUsingEncoding:NSUTF8StringEncoding] forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
+//                [self writeToLogWithText:@"写数据给外设"];
+//                
+//                _curPeripherals = peripheral;
+//                _curCharacter = characteristic;
+//            }
+//        }
+        
+        //2A5B
+        if ([characteristic.UUID.UUIDString isEqualToString:@"2A5B"]) {
+            [self writeToLogWithText:@"2A5B,写骑行数据包"];
+            UInt8 Flag = 8;
+            UInt16 speed = 200;
+            UInt32 ThirdDst = 1400000;
+            UInt32 ThirdTime = 102400;
+            UInt32 Calorie = 100000;
+            UInt16 Altilitude = 10010;
+            UInt8 HeartRate = 90;
+            UInt8 Cadence = 45;
+            UInt8 AvgCadence = 50;
+            
+            Byte array[20];
+            array[0] = Flag & 0xff;
+            
+            array[1] = speed & 0xff;
+            array[2] = (speed >> 8) &0xff;
+            
+            array[3] = ThirdDst &0xff;
+            array[4] = (ThirdDst >> 8) & 0xff;
+            array[5] = (ThirdDst >> 16) & 0xff;
+            array[6] = (ThirdDst >> 24) & 0xff;
+            
+            array[7] = ThirdTime &0xff;
+            array[8] = (ThirdTime >> 8) & 0xff;
+            array[9] = (ThirdTime >> 16) & 0xff;
+            array[10] = (ThirdTime >> 24) & 0xff;
+            
+            array[11] = Calorie &0xff;
+            array[12] = (Calorie >> 8) & 0xff;
+            array[13] = (Calorie >> 16) & 0xff;
+            array[14] = (Calorie >> 24) & 0xff;
+            
+            array[15] = Altilitude & 0xff;
+            array[16] = (Altilitude >> 8) &0xff;
+            
+            array[17] = HeartRate;
+            
+            array[18] = Cadence;
+            
+            array[19] = AvgCadence;
+            
+            array;
+            NSData *data = [NSData dataWithBytes:array length:20];
+            
+            [peripheral writeValue:data forCharacteristic:characteristic type:CBCharacteristicWriteWithResponse];
         }
     }
+}
+
+
+//Byte array[] = {0, 0, 0, 0};
+//NSData *data = [NSData dataWithBytes: array length: sizeof(array)];
+//Byte *bytes = (Byte *)[data bytes];
+
+//public static byte[] int2Byte(int intValue){
+//    byte[] b=new byte[4];
+//    for(int i=0;i<4;i++){
+//        b[i]=(byte)(intValue>>8*(3-i) & 0xFF);
+//        System.out.print(Integer.toBinaryString(b[i])+" ");
+//        System.out.println("test");
+//        System.out.print((b[i]& 0xFF)+" ");
+//    }
+//    return b;
+//}
+
+
+//// int 2 byte
+//BYTE *Int2Byte(int nVal)
+//{
+//    BYTE *pByte = new BYTE[4];
+//    for (int i = 0; i<4;i++)
+//    {
+//        pByte[i] = (BYTE)(nVal >> 8*(3-i) & 0xff);
+//    }
+//    return pByte;
+//}
+//
+//// byte 2 int
+//int Byte2Int(BYTE *pb)
+//{
+//    // assume the length of pb is 4
+//    int nValue=0;
+//    for(int i=0;i < 4; i++)
+//    {
+//        nValue += ( pb[i] & 0xFF)<<(8*(3-i));
+//    }
+//    return nValue;
+//}
+
+- (void)int2bytetest{
+    Byte array[] = {0};
+    int nval= 8;
+    array[0] = nval & 0xff;
+    
+    NSLog(@"%s",array);
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{

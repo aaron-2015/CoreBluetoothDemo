@@ -118,7 +118,6 @@
 				93CF23AE1CB89A7600662F5B /* CentralViewController.m */,
 				93CF23AF1CB89A7600662F5B /* PeripheralViewController.h */,
 				93CF23B01CB89A7600662F5B /* PeripheralViewController.m */,
-				938906601CB78E590058DC6C /* Assets.xcassets */,
 				938906621CB78E590058DC6C /* LaunchScreen.storyboard */,
 				938906651CB78E590058DC6C /* Info.plist */,
 				938906541CB78E590058DC6C /* Supporting Files */,
@@ -129,6 +128,7 @@
 		938906541CB78E590058DC6C /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				938906601CB78E590058DC6C /* Assets.xcassets */,
 				938906551CB78E590058DC6C /* main.m */,
 			);
 			name = "Supporting Files";
