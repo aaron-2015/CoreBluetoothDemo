@@ -179,15 +179,15 @@
     for (CBCharacteristic *characteristic in service.characteristics) {
         
         //情景一：读取
-//        if (characteristic.properties & CBCharacteristicPropertyRead) {
-//            if ([characteristic.UUID.UUIDString isEqualToString:kReadUUID]) {
-//                [peripheral readValueForCharacteristic:characteristic];
-//                if (characteristic.value) {
-//                    NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-//                    NSLog(@"读取到特征值：%@",value);
-//                }
-//            }
-//        }
+        if (characteristic.properties & CBCharacteristicPropertyRead) {
+            if ([characteristic.UUID.UUIDString isEqualToString:kReadUUID]) {
+                [peripheral readValueForCharacteristic:characteristic];
+                if (characteristic.value) {
+                    NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
+                    NSLog(@"读取到特征值：%@",value);
+                }
+            }
+        }
 
         //情景二：通知
         if (characteristic.properties & CBCharacteristicPropertyNotify) {
@@ -214,7 +214,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateNotificationStateForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
     
     NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-    [self writeToLogWithText:[NSString stringWithFormat:@"读取到更新后通知：%@",value]];
+    [self writeToLogWithText:[NSString stringWithFormat:@"读取特征值：%@",value]];
 }
 
 - (void)peripheral:(CBPeripheral *)peripheral didUpdateValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
@@ -226,7 +226,7 @@
 - (void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(nonnull CBCharacteristic *)characteristic error:(nullable NSError *)error{
     
     NSString *value=[[NSString alloc]initWithData:characteristic.value encoding:NSUTF8StringEncoding];
-    [self writeToLogWithText:[NSString stringWithFormat:@"读取写更新特征值：%@",value]];
+    [self writeToLogWithText:[NSString stringWithFormat:@"读取特征值：%@",value]];
 }
 
 @end
